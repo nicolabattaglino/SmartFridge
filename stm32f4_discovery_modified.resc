@@ -1,0 +1,25 @@
+include @peripherals/Printer.cs
+include @peripherals/Display.cs
+include @peripherals/SPI_temperature.cs
+include @peripherals/MyButton.cs
+include @peripherals/SPI_VOC.cs
+
+using sysbus
+mach create "STM32F4_Discovery"
+machine LoadPlatformDescription @platforms/boards/stm32f4_discovery-kit.repl
+machine LoadPlatformDescription @myRepl.repl
+
+
+cpu PerformanceInMips 125
+
+macro reset
+"""
+  sysbus LoadELF @.pio/build/black_f407vg/firmware.elf
+"""
+
+runMacro $reset
+
+machine StartGdbServer 3333 True
+
+start
+
